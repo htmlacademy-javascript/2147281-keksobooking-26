@@ -21,3 +21,6 @@ function getRandomFloat (min, max, decimals) {
     randomFloat = Math.random() * (max - min + 1) + min;
     return randomFloat.toFixed(decimals)
 }
+
+getRandomInt(0, 5)
+getRandomFloat(0.5, 1.5)
