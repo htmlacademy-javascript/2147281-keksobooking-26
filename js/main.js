@@ -23,8 +23,6 @@ function getRandomFloat (min, max, decimals) {
   if (min >= max) {
     return 0;
   }
-  min = Math.abs(min);
-  max = Math.abs(max);
   randomFloat = Math.random() * (max - min + 1) + min;
   return randomFloat.toFixed(decimals);
 }
