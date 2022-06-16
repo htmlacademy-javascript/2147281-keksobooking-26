@@ -1,6 +1,3 @@
-let randomInt;
-let randomFloat;
-
 // Функция, возвращающая случайное целое число из переданного диапазона включительно
 function getRandomInt (min, max) {
   if (min < 0) {
@@ -11,7 +8,7 @@ function getRandomInt (min, max) {
   }
   min = Math.floor(min);
   max = Math.floor(max);
-  randomInt = Math.floor(Math.random() * (max - min + 1) + min);
+  const randomInt = Math.floor(Math.random() * (max - min + 1) + min);
   return randomInt;
 }
 
@@ -23,7 +20,7 @@ function getRandomFloat (min, max, decimals) {
   if (min >= max) {
     return 0;
   }
-  randomFloat = Math.random() * (max - min + 1) + min;
+  const randomFloat = Math.random() * (max - min + 1) + min;
   return randomFloat.toFixed(decimals);
 }
 
