@@ -1,19 +1,8 @@
 // Можно изменить количество создаваемых объявлений и все будет работать, вне
 // зависимости от того, какую функцию-генератор мы вызываем - buildAd (создание
 // одиночного объявления) или createAdsVariety (множество объявлений)
-const QUANTITY = 10;
+const ADS_QUANTITY = 10;
 
-// Если в этом массиве есть хотя бы один элемент, то аватары будут
-// генерироваться случайным образом, а если массив полностью пустой, то аватары
-// будут создаваться последовательно по возрастанию айди юзера
-const AVATAR_LINKS = [
-  {avatar: 'img/avatars/user01.png'},
-];
-// Этот массив позволяет проводить проверку на повторяющися аватары
-const CHECKING_ARRAY = [];
-
-// Сначала я сделал так, что у каждого объявления свой тайтл, но в задании
-// этого не требуется, поэтому тайтлы могут повторяться от объявления к объявлению
 const TITLES = [
   'Удобная Кексоедка рядом с озером',
   'Кесодом со спальней King-size',
@@ -69,96 +58,82 @@ const DESCRIPTIONS = [
   'Вместительный застекленный балкон (2,7 кв.м). На кухне (9 кв.м) ламинат, обои под покраску, встроенная отличная кухня с индукционной плитой, духовкой, микроволновой печью и посудомоечной машиной, оставляем также ТВ . Квартира очень хорошая и счастливая! Один собственник, в собственности более 3-х лет, юридически свободна. Продажа БЕЗ ПОСРЕДНИКОВ',
 ];
 
-function getRandomPositiveInteger (a, b) {
+const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
-function getRandomPositiveFloat (a, b, digits = 1) {
+const getRandomPositiveFloat = (a, b, digits = 1) => {
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
-}
+};
 
-// Функция взята из курса программы, как и две предыдущие
-function getRandomElement (elements) {
-  return elements[getRandomPositiveInteger(0, elements.length - 1)];
-}
+// Сделал все функции стрелочными
+const getRandomElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-// Функция, которая возвращает из массива новый массив со случайной длиной
-// элементов, причем расчет длины производится от случайных минимального и
-// максимального значений, например из массива [1, 2, 3, 4] можно случайно
-// получить [4] или [2, 3]
-function getRandomArray (elements) {
-  const maxNumber = getRandomPositiveInteger(0, elements.length - 1);
-  let minNumber = getRandomPositiveInteger(0, maxNumber);
-  const newMassive = [];
-  for (minNumber; minNumber <= maxNumber; minNumber++) {
-    newMassive.push(elements[minNumber]);
-  }
-  return newMassive;
-}
+// Переделал с методом слайс - код стал чище и понятней
+const getRandomArray = (elements) => {
+  const maxNumber = getRandomPositiveInteger(1, elements.length);
+  const minNumber = getRandomPositiveInteger(0, maxNumber - 1);
+  const randomArray = elements.slice(minNumber, maxNumber);
+  return randomArray;
+};
 
-// Функция, при вызове которой пополняется массив с ссылками на аватар, в
-// зависимости от его длины
-function pushNewAvatar () {
-  if (AVATAR_LINKS.length < 10) {
-    AVATAR_LINKS.push({avatar: `img/avatars/user0${AVATAR_LINKS.length + 1}.png`});
-  } else {
-    AVATAR_LINKS.push({avatar: `img/avatars/user${AVATAR_LINKS.length + 1}.png`});
-  }
-}
+//Полностью переделал функцию для генерации аватаров. Удалил лишнюю функцию. Добавил замыкание.
+const getUserAvatar = (min = 1, max = ADS_QUANTITY) => {
+  const BOUNDARY_NUMBER = 10; //Вынес магическое значение сюда
+  const CheckingArray = []; //Избавился от проверяющего массива во внешнем окружении
+  return function () {
+    if (CheckingArray.length >= (max - min + 1)) {
+      (max += CheckingArray.length); //Проверка избавляет от бесконечного цикла и позволяет не переживать, если мы вдруг забудем изменить значение константы ADS_QUANTITY. И не надо сообщения в консоль никакие выводить и прерывать генерацию.
+    }
+    let randomNumber = getRandomPositiveInteger(min, max);
+    while (CheckingArray.includes(randomNumber)) {
+      randomNumber = getRandomPositiveInteger(min, max);
+    }
+    CheckingArray.push(randomNumber);
+    if (randomNumber < BOUNDARY_NUMBER) {
+      randomNumber = '0'.concat(randomNumber);
+    }
+    return {avatar: `img/avatars/user${randomNumber}.png`};
+  };
+};
 
-// Самая неочевидная функция из представленных - по сути, она просто после всех
-// нужных проверок возвращает случайно сгенерированную ссылку на аватар, но так,
-// чтобы она не повторялась с другими при многократном вызове данной функции.
-function getNonrepeatingAvatar (avatarLinks, checkingAddedUsers) {
-  // Эти две проверки с оператором ИЛИ предотваращают бесконечный цикл в любом случае:
-  if (avatarLinks.length < QUANTITY || avatarLinks.length === checkingAddedUsers.length) {
-    pushNewAvatar();
-  }
-  let avatar = getRandomElement(avatarLinks);
-  // А это сам цикл, который без двух проверок выше запросто перерастает в
-  // бесконечный. И именно данный цикл заставляет ссылки при генерации новых
-  // объявлений группироваться последовательно, если AVATAR_LINK изначально
-  // пустой. Можно еще добавить один if (AVATAR_LINKS.length === 0) но я считаю
-  // и так громоздко. Если есть более простое решение для поставленных условий,
-  // с удовольствием исправлю
-  while (checkingAddedUsers.includes(avatar)) {
-    avatar = getRandomElement(avatarLinks);
-  }
-  checkingAddedUsers.push(avatar);
-  return avatar;
-}
+const getNonrepeatingAvatar = getUserAvatar(); // Замыкание
 
-const buildAd = () => ({
-  author: getNonrepeatingAvatar(AVATAR_LINKS, CHECKING_ARRAY),
-  offer: {
-    title: getRandomElement(TITLES),
-    adress: (this.location.lat + this.location.lng).toString,
-    price: getRandomPositiveInteger(1, 3e6),
-    type: getRandomElement(TYPES),
-    rooms: getRandomPositiveInteger(1, 5),
-    guests: getRandomPositiveInteger(1, 20),
-    checkin: getRandomElement(CHECKINS),
-    checkout: getRandomElement(CHECKOUTS),
-    features: getRandomArray(FEATURES),
-    description: getRandomElement(DESCRIPTIONS),
-    photos: getRandomArray(PHOTOS)
-  },
-  location: {
-    lat: getRandomPositiveFloat(35.65000, 35.70000, 5),
-    lng: getRandomPositiveFloat(139.70000, 139.80000, 5)
-  }
-});
-
+const buildAd = () => {
+  const lat = getRandomPositiveFloat(35.65000, 35.70000, 5);
+  const lng = getRandomPositiveFloat(139.70000, 139.80000, 5);
+  return {
+    author: getNonrepeatingAvatar(),
+    offer: {
+      title: getRandomElement(TITLES),
+      adress: `${lat}, ${lng}`, //адрес не вывелся в прошлый раз, потому что я потерял окружение при изменении декларативной на стрелочную функцию
+      price: getRandomPositiveInteger(1, 3e6),
+      type: getRandomElement(TYPES),
+      rooms: getRandomPositiveInteger(1, 5),
+      guests: getRandomPositiveInteger(1, 20),
+      checkin: getRandomElement(CHECKINS),
+      checkout: getRandomElement(CHECKOUTS),
+      features: getRandomArray(FEATURES),
+      description: getRandomElement(DESCRIPTIONS),
+      photos: getRandomArray(PHOTOS)
+    },
+    location: {
+      lat: lat,
+      lng: lng,
+    }
+  };
+};
 
 const createAdsVariety = () => {
-  const adsVariety = Array.from({length: QUANTITY}, buildAd);
+  const adsVariety = Array.from({length: ADS_QUANTITY}, buildAd);
   return adsVariety;
 };
 
+createAdsVariety();
 createAdsVariety();
