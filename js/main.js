@@ -4,7 +4,7 @@
 const ADS_QUANTITY = 10;
 
 // Вывел константы для магических значений
-const MINIMUM = 1;
+
 const MAXIMUM_PRICE = 3e6;
 const MAXIMUM_ROOMS = 5;
 const MAXIMUM_GEUSTS = 10;
@@ -90,13 +90,13 @@ const getRandomArray = (elements) => {
 };
 
 //Полностью переделал функцию для генерации аватаров. Удалил лишнюю функцию. Добавил замыкание.
-const getUserAvatar = (min = MINIMUM, max = ADS_QUANTITY) => {
-  const ADS_NUMBER = ADS_QUANTITY;
+const getUserAvatar = (min = 1, max = ADS_QUANTITY) => {
+  const AdsNumber = ADS_QUANTITY;
   const BOUNDARY_NUMBER = 10; //Вынес магическое значение сюда
   const CheckingArray = []; //Избавился от проверяющего массива во внешнем окружении
   return function () {
     if (CheckingArray.length >= (max - min + 1)) {
-      (max += ADS_NUMBER); //Проверка избавляет от бесконечного цикла и позволяет не переживать, если мы вдруг забудем изменить значение константы ADS_QUANTITY. Генерация будет всегда работать при вызове функций. Мне так больше нравится, нежели вывод в консоль об остановке.
+      (max += AdsNumber); //Проверка избавляет от бесконечного цикла и позволяет не переживать, если мы вдруг забудем изменить значение константы ADS_QUANTITY. Генерация будет всегда работать при вызове функций. Мне так больше нравится, нежели вывод в консоль об остановке.
     }
     let randomNumber = getRandomPositiveInteger(min, max);
     while (CheckingArray.includes(randomNumber)) {
@@ -120,10 +120,10 @@ const buildAd = () => {
     offer: {
       title: getRandomElement(TITLES),
       adress: `${lat}, ${lng}`, //адрес не вывелся в прошлый раз, потому что я потерял окружение при изменении декларативной на стрелочную функцию
-      price: getRandomPositiveInteger(MINIMUM, MAXIMUM_PRICE),
+      price: getRandomPositiveInteger(1, MAXIMUM_PRICE),
       type: getRandomElement(TYPES),
-      rooms: getRandomPositiveInteger(MINIMUM, MAXIMUM_ROOMS),
-      guests: getRandomPositiveInteger(MINIMUM, MAXIMUM_GEUSTS),
+      rooms: getRandomPositiveInteger(1, MAXIMUM_ROOMS),
+      guests: getRandomPositiveInteger(1, MAXIMUM_GEUSTS),
       checkin: getRandomElement(CHECKINS),
       checkout: getRandomElement(CHECKOUTS),
       features: getRandomArray(FEATURES),
