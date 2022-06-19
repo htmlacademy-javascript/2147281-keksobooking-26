@@ -1,13 +1,24 @@
-// Можно изменить количество создаваемых объявлений и все будет работать, вне
-// зависимости от того, какую функцию-генератор мы вызываем - buildAd (создание
-// одиночного объявления) или createAdsVariety (множество объявлений)
 const ADS_QUANTITY = 10;
 
-// Вывел константы для магических значений
+const BOUNDARY_NUMBER = 10;
 
 const MAXIMUM_PRICE = 3e6;
+
 const MAXIMUM_ROOMS = 5;
+
 const MAXIMUM_GEUSTS = 10;
+
+const LAT = {
+  min: 35.65000,
+  max: 35.70000,
+  decimals: 5,
+};
+
+const LNG = {
+  min: 139.70000,
+  max: 139.80000,
+  decimals: 5,
+};
 
 const TITLES = [
   'Удобная Кексоедка рядом с озером',
@@ -78,10 +89,8 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
   return +result.toFixed(digits);
 };
 
-// Сделал все функции стрелочными
 const getRandomElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-// Переделал с методом слайс - код стал чище и понятней
 const getRandomArray = (elements) => {
   const maxNumber = getRandomPositiveInteger(1, elements.length);
   const minNumber = getRandomPositiveInteger(0, maxNumber - 1);
@@ -89,37 +98,36 @@ const getRandomArray = (elements) => {
   return randomArray;
 };
 
-//Полностью переделал функцию для генерации аватаров. Удалил лишнюю функцию. Добавил замыкание.
 const getUserAvatar = (min = 1, max = ADS_QUANTITY) => {
-  const AdsNumber = ADS_QUANTITY;
-  const BOUNDARY_NUMBER = 10; //Вынес магическое значение сюда
-  const CheckingArray = []; //Избавился от проверяющего массива во внешнем окружении
+  const adsNumber = ADS_QUANTITY;
+  const boundaryName = BOUNDARY_NUMBER;
+  const checkingArray = [];
   return function () {
-    if (CheckingArray.length >= (max - min + 1)) {
-      (max += AdsNumber); //Проверка избавляет от бесконечного цикла и позволяет не переживать, если мы вдруг забудем изменить значение константы ADS_QUANTITY. Генерация будет всегда работать при вызове функций. Мне так больше нравится, нежели вывод в консоль об остановке.
+    if (checkingArray.length >= (max - min + 1)) {
+      (max += adsNumber);
     }
     let randomNumber = getRandomPositiveInteger(min, max);
-    while (CheckingArray.includes(randomNumber)) {
+    while (checkingArray.includes(randomNumber)) {
       randomNumber = getRandomPositiveInteger(min, max);
     }
-    CheckingArray.push(randomNumber);
-    if (randomNumber < BOUNDARY_NUMBER) {
+    checkingArray.push(randomNumber);
+    if (randomNumber < boundaryName) {
       randomNumber = '0'.concat(randomNumber);
     }
     return {avatar: `img/avatars/user${randomNumber}.png`};
   };
 };
 
-const getNonrepeatingAvatar = getUserAvatar(); // Замыкание
+const getNonrepeatingAvatar = getUserAvatar();
 
 const buildAd = () => {
-  const lat = getRandomPositiveFloat(35.65000, 35.70000, 5);
-  const lng = getRandomPositiveFloat(139.70000, 139.80000, 5);
+  const lat = getRandomPositiveFloat(LAT.min, LAT.max, LAT.decimals);
+  const lng = getRandomPositiveFloat(LNG.min, LNG.max, LNG.decimals);
   return {
     author: getNonrepeatingAvatar(),
     offer: {
       title: getRandomElement(TITLES),
-      adress: `${lat}, ${lng}`, //адрес не вывелся в прошлый раз, потому что я потерял окружение при изменении декларативной на стрелочную функцию
+      adress: `${lat}, ${lng}`,
       price: getRandomPositiveInteger(1, MAXIMUM_PRICE),
       type: getRandomElement(TYPES),
       rooms: getRandomPositiveInteger(1, MAXIMUM_ROOMS),
@@ -142,5 +150,4 @@ const createAdsVariety = () => {
   return adsVariety;
 };
 
-createAdsVariety();
 createAdsVariety();
