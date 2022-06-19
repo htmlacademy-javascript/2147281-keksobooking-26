@@ -3,6 +3,12 @@
 // одиночного объявления) или createAdsVariety (множество объявлений)
 const ADS_QUANTITY = 10;
 
+// Вывел константы для магических значений
+const MINIMUM = 1;
+const MAXIMUM_PRICE = 3e6;
+const MAXIMUM_ROOMS = 5;
+const MAXIMUM_GEUSTS = 10;
+
 const TITLES = [
   'Удобная Кексоедка рядом с озером',
   'Кесодом со спальней King-size',
@@ -84,12 +90,13 @@ const getRandomArray = (elements) => {
 };
 
 //Полностью переделал функцию для генерации аватаров. Удалил лишнюю функцию. Добавил замыкание.
-const getUserAvatar = (min = 1, max = ADS_QUANTITY) => {
+const getUserAvatar = (min = MINIMUM, max = ADS_QUANTITY) => {
+  const ADS_NUMBER = ADS_QUANTITY;
   const BOUNDARY_NUMBER = 10; //Вынес магическое значение сюда
   const CheckingArray = []; //Избавился от проверяющего массива во внешнем окружении
   return function () {
     if (CheckingArray.length >= (max - min + 1)) {
-      (max += CheckingArray.length); //Проверка избавляет от бесконечного цикла и позволяет не переживать, если мы вдруг забудем изменить значение константы ADS_QUANTITY. И не надо сообщения в консоль никакие выводить и прерывать генерацию.
+      (max += ADS_NUMBER); //Проверка избавляет от бесконечного цикла и позволяет не переживать, если мы вдруг забудем изменить значение константы ADS_QUANTITY. Генерация будет всегда работать при вызове функций. Мне так больше нравится, нежели вывод в консоль об остановке.
     }
     let randomNumber = getRandomPositiveInteger(min, max);
     while (CheckingArray.includes(randomNumber)) {
@@ -113,10 +120,10 @@ const buildAd = () => {
     offer: {
       title: getRandomElement(TITLES),
       adress: `${lat}, ${lng}`, //адрес не вывелся в прошлый раз, потому что я потерял окружение при изменении декларативной на стрелочную функцию
-      price: getRandomPositiveInteger(1, 3e6),
+      price: getRandomPositiveInteger(MINIMUM, MAXIMUM_PRICE),
       type: getRandomElement(TYPES),
-      rooms: getRandomPositiveInteger(1, 5),
-      guests: getRandomPositiveInteger(1, 20),
+      rooms: getRandomPositiveInteger(MINIMUM, MAXIMUM_ROOMS),
+      guests: getRandomPositiveInteger(MINIMUM, MAXIMUM_GEUSTS),
       checkin: getRandomElement(CHECKINS),
       checkout: getRandomElement(CHECKOUTS),
       features: getRandomArray(FEATURES),
