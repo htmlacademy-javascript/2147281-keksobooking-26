@@ -16,7 +16,7 @@ const getRandomElement = (elements) => elements[getRandomPositiveInteger(0, elem
 
 const getRandomArray = (elements) => {
   const maxNumber = getRandomPositiveInteger(1, elements.length);
-  const minNumber = getRandomPositiveInteger(0, maxNumber - 1);
+  const minNumber = getRandomPositiveInteger(0, maxNumber);
   const randomArray = elements.slice(minNumber, maxNumber);
   return randomArray;
 };

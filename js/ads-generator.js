@@ -1,6 +1,6 @@
-import { ADS_QUANTITY, MAXIMUM_PRICE, MAXIMUM_ROOMS, MAXIMUM_GEUSTS, LAT, LNG, TITLES, TYPES, CHECKINS, CHECKOUTS, FEATURES, PHOTOS, DESCRIPTIONS } from './ads-data';
-import { getRandomPositiveFloat, getRandomPositiveInteger, getRandomElement, getRandomArray } from './utils';
-import { getNonrepeatingAvatar } from './ads-avatar';
+import { ADS_QUANTITY, MAXIMUM_PRICE, MAXIMUM_ROOMS, MAXIMUM_GEUSTS, LAT, LNG, TITLES, TYPES, CHECKINS, CHECKOUTS, FEATURES, PHOTOS, DESCRIPTIONS } from './ads-data.js';
+import { getRandomPositiveFloat, getRandomPositiveInteger, getRandomElement, getRandomArray } from './utils.js';
+import { getNonrepeatingAvatar } from './ads-get-user-avatar.js';
 
 const buildAd = () => {
   const lat = getRandomPositiveFloat(LAT.min, LAT.max, LAT.decimals);

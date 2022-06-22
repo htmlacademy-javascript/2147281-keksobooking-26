@@ -1,5 +1,5 @@
-import { ADS_QUANTITY, BOUNDARY_NUMBER } from './ads-data';
-import { getRandomPositiveInteger } from './utils';
+import { ADS_QUANTITY, BOUNDARY_NUMBER } from './ads-data.js';
+import { getRandomPositiveInteger } from './utils.js';
 
 const getUserAvatar = (min = 1, max = ADS_QUANTITY) => {
   const adsNumber = ADS_QUANTITY;
