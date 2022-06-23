@@ -1,5 +1,10 @@
-import { adsFragment } from './ads-fragment.js';
-import { insertFragmentInDom } from './dom-manipulators.js';
+import { createAdCard } from './ad-card.js';
+import { createAdsVariety } from './ads-generator.js';
 
-insertFragmentInDom('#map-canvas', adsFragment, '.popup', true);
+const adsVariety = createAdsVariety();
 
+const adCard = createAdCard(adsVariety, 0);
+
+const mapCanvas = document.querySelector('#map-canvas');
+
+mapCanvas.append(adCard);

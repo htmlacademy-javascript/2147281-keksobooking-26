@@ -21,4 +21,12 @@ const getRandomArray = (elements) => {
   return randomArray;
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray};
+const overwriteGuestString = (guestNumber) => {
+  let guestString = 'гостей';
+  if (guestNumber === 1) {
+    guestString = 'гостя';
+  }
+  return guestString;
+};
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString};
