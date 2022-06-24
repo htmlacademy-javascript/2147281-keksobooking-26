@@ -2,7 +2,7 @@ const ADS_QUANTITY = 10;
 
 const BOUNDARY_NUMBER = 10;
 
-const MAXIMUM_PRICE = 3e6;
+const MAXIMUM_PRICE = 1e4;
 
 const MAXIMUM_ROOMS = 5;
 
