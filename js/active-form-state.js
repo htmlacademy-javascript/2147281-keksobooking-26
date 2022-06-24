@@ -1,7 +1,7 @@
 const activeFormState = (isMapInit) => {
   const adForm = document.querySelector('.ad-form');
   const mapFilters = document.querySelector('.map__filters');
-  const formElements = mapFilters.querySelectorAll('.ad-form__element, .map__filter, #housing-features');
+  const formElements = document.querySelectorAll('.ad-form__element, .map__filter, #housing-features');
   if (!isMapInit) {
     adForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
