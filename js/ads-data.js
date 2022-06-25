@@ -2,11 +2,11 @@ const ADS_QUANTITY = 10;
 
 const BOUNDARY_NUMBER = 10;
 
-const MAXIMUM_PRICE = 1e4;
+const MAXIMUM_PRICE = 100000;
 
-const MAXIMUM_ROOMS = 5;
+const MAXIMUM_ROOMS = 3;
 
-const MAXIMUM_GEUSTS = 10;
+const MAXIMUM_GEUSTS = 3;
 
 const LAT = {
   min: 35.65000,

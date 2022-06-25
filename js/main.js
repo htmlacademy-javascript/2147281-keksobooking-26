@@ -1,6 +1,7 @@
 import { createAdCard } from './ad-card.js';
 import { createAdsVariety } from './ads-generator.js';
 import { activeFormState } from './active-form-state.js';
+import './form-validation.js';
 
 activeFormState(false);
 
@@ -12,3 +13,4 @@ const mapCanvas = document.querySelector('#map-canvas');
 
 mapCanvas.append(adCard);
 
+activeFormState(true);
