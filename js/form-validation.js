@@ -18,7 +18,6 @@ const maxGuests = {
 const validateCapacity = (value) => {
   const roomsSelectElement = document.querySelector('#room_number');
   const roomsAmountSelected = roomsSelectElement.querySelector('option:checked');
-  value = Number(value);
   const availableNumbersOfGuests = maxGuests[roomsAmountSelected.value];
   return availableNumbersOfGuests.includes(value);
 };
