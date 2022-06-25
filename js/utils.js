@@ -29,4 +29,10 @@ const overwriteGuestString = (guestNumber) => {
   return guestString;
 };
 
+// Взял из интернета. Как было создано, не вникал, поскольку, я так понимаю, этого мы еще не проходили:
+
+Array.max = function(array){
+  return Math.max.apply(Math, array);
+};
+
 export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString};
