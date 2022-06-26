@@ -1,4 +1,5 @@
 import { overwriteGuestString } from './utils.js';
+import { MAX_GUESTS, MIN_PRICES } from './ads-data.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -8,25 +9,62 @@ const validator = new Pristine(form, {
   errorTextClass: 'ad-form__error-text',
 });
 
-const maxGuests = {
-  '1': [1],
-  '2': [1, 2],
-  '3': [1, 2, 3],
-  '100': [0],
+const typeSelectElement = form.querySelector('#type');
+const typeOptionSelectedElement = typeSelectElement.querySelector('option:checked');
+
+const roomsSelectElement = form.querySelector('#room_number');
+const roomsOptionSelected = roomsSelectElement.querySelector('option:checked');
+
+const capacitySelectElement = form.querySelector('#capacity');
+
+const priceElement = form.querySelector('#price');
+
+const timeinSelectElement = form.querySelector('#timein');
+const timeoutSelectElement = form.querySelector('#timeout');
+
+let availableNumbersOfGuests = MAX_GUESTS[roomsOptionSelected.value];
+
+priceElement.placeholder = MIN_PRICES[typeOptionSelectedElement.value];
+priceElement.min = MIN_PRICES[typeOptionSelectedElement.value];
+
+// Валидация на минимальную цену относительно типа жилья:
+
+const OnChangeTypeSetMinPrice = (evt) => {
+  priceElement.value = '';
+  const minPrice = MIN_PRICES[evt.target.value];
+  priceElement.placeholder = minPrice;
+  priceElement.min = minPrice;
 };
 
+typeSelectElement.addEventListener('change', OnChangeTypeSetMinPrice);
+
+const validateMinPrice = (value) =>
+  value >= Number(priceElement.min);
+
+const getMinPriceError = () =>
+  `Минимальная цена ${priceElement.min}₽ для данного типа жилья!`;
+
+validator.addValidator(
+  priceElement,
+  validateMinPrice,
+  getMinPriceError,
+);
+
+// Валидация на количество гостей относительно количества комнат:
+
 const validateCapacity = (value) => {
-  const roomsSelectElement = document.querySelector('#room_number');
-  const roomsAmountSelected = roomsSelectElement.querySelector('option:checked');
   value = Number(value);
-  const availableNumbersOfGuests = maxGuests[roomsAmountSelected.value];
   return availableNumbersOfGuests.includes(value);
 };
 
+const onChangeRoomsGetNumbersOfGuests = (evt) => {
+  availableNumbersOfGuests = MAX_GUESTS[evt.target.value];
+  validator.validate(capacitySelectElement);
+};
+
+roomsSelectElement.addEventListener('change', onChangeRoomsGetNumbersOfGuests);
+
 const getCapacityErrorMessage = () => {
-  const roomsSelectElement = document.querySelector('#room_number');
-  const roomsAmountSelected = roomsSelectElement.querySelector('option:checked');
-  const availableNumbersOfGuests = maxGuests[roomsAmountSelected.value];
   if (availableNumbersOfGuests.includes(0)) {
     return 'Не предназначено для гостей!';
   }
@@ -35,10 +73,26 @@ const getCapacityErrorMessage = () => {
 };
 
 validator.addValidator(
-  form.querySelector('#capacity'),
+  capacitySelectElement,
   validateCapacity,
   getCapacityErrorMessage,
 );
+
+// Валидация на время заезда/выезда:
+
+const onChangeTimeinSwitchTimeout = (evt) => {
+  timeoutSelectElement.value = evt.target.value;
+};
+
+timeinSelectElement.addEventListener('change', onChangeTimeinSwitchTimeout);
+
+const onChangeTimeoutSwitchTimein = (evt) => {
+  timeinSelectElement.value = evt.target.value;
+};
+
+timeoutSelectElement.addEventListener('change', onChangeTimeoutSwitchTimein);
+
+// Рабочая валидация по кнопке и обнуление формы:
 
 form.addEventListener('submit', (evt) => {
   const isValid = validator.validate();

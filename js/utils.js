@@ -35,4 +35,8 @@ Array.max = function(array){
   return Math.max.apply(Math, array);
 };
 
+Array.min = function(array){
+  return Math.min.apply(Math, array);
+};
+
 export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString};
