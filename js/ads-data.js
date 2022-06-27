@@ -2,11 +2,11 @@ const ADS_QUANTITY = 10;
 
 const BOUNDARY_NUMBER = 10;
 
-const MAXIMUM_PRICE = 1e4;
+const MAXIMUM_PRICE = 100000;
 
-const MAXIMUM_ROOMS = 5;
+const MAXIMUM_ROOMS = 3;
 
-const MAXIMUM_GEUSTS = 10;
+const MAXIMUM_GEUSTS = 3;
 
 const LAT = {
   min: 35.65000,
@@ -75,4 +75,19 @@ const DESCRIPTIONS = [
   'Вместительный застекленный балкон (2,7 кв.м). На кухне (9 кв.м) ламинат, обои под покраску, встроенная отличная кухня с индукционной плитой, духовкой, микроволновой печью и посудомоечной машиной, оставляем также ТВ . Квартира очень хорошая и счастливая! Один собственник, в собственности более 3-х лет, юридически свободна. Продажа БЕЗ ПОСРЕДНИКОВ',
 ];
 
-export {ADS_QUANTITY, BOUNDARY_NUMBER, MAXIMUM_PRICE, MAXIMUM_ROOMS, MAXIMUM_GEUSTS, LAT, LNG, TITLES, TYPES, CHECKINS, CHECKOUTS, FEATURES, PHOTOS, DESCRIPTIONS};
+const MAX_GUESTS = {
+  '1': [1],
+  '2': [1, 2],
+  '3': [1, 2, 3],
+  '100': [0],
+};
+
+const MIN_PRICES = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
+};
+
+export {ADS_QUANTITY, BOUNDARY_NUMBER, MAXIMUM_PRICE, MAXIMUM_ROOMS, MAXIMUM_GEUSTS, LAT, LNG, TITLES, TYPES, CHECKINS, CHECKOUTS, FEATURES, PHOTOS, DESCRIPTIONS, MAX_GUESTS, MIN_PRICES};
