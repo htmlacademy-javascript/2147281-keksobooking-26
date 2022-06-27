@@ -7,10 +7,32 @@ activeFormState(false);
 
 const adsVariety = createAdsVariety();
 
-const adCard = createAdCard(adsVariety[0]);
+createAdCard(adsVariety[0]);
 
-const mapCanvas = document.querySelector('#map-canvas');
+const map = L.map('map').on('load', () => {
+  activeFormState(true);
+}).setView({
+  lat: 35.6895,
+  lng: 139.692,
+}, 10);
 
-mapCanvas.append(adCard);
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
 
-activeFormState(true);
+const marker = L.marker(
+  {
+    lat: 35.6895,
+    lng: 139.692,
+  },
+  {
+    draggable: true,
+  }
+);
+
+marker.addTo(map);
+
+
