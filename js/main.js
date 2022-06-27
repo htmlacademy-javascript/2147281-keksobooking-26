@@ -17,6 +17,7 @@ const adressElement = document.querySelector('#address');
 
 const adsVariety = createAdsVariety();
 
+
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -37,4 +38,5 @@ markerGroup.addTo(map);
 adsVariety.forEach((ad) => {
   createAdMarker(ad);
 });
+
 
