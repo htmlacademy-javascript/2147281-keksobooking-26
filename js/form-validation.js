@@ -29,14 +29,14 @@ priceElement.min = MIN_PRICES[typeOptionSelectedElement.value];
 
 // Валидация на минимальную цену относительно типа жилья:
 
-const OnChangeTypeSetMinPrice = (evt) => {
-  priceElement.value = '';
+const onChangeTypeSetMinPrice = (evt) => {
   const minPrice = MIN_PRICES[evt.target.value];
   priceElement.placeholder = minPrice;
   priceElement.min = minPrice;
+  validator.validate(priceElement);
 };
 
-typeSelectElement.addEventListener('change', OnChangeTypeSetMinPrice);
+typeSelectElement.addEventListener('change', onChangeTypeSetMinPrice);
 
 const validateMinPrice = (value) =>
   value >= Number(priceElement.min);
