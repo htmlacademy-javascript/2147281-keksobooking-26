@@ -7,10 +7,6 @@ activeFormState(false);
 
 const adsVariety = createAdsVariety();
 
-const adCard = createAdCard(adsVariety[0]);
-
-const mapCanvas = document.querySelector('#map-canvas');
-
-mapCanvas.append(adCard);
+createAdCard(adsVariety[0]);
 
 activeFormState(true);
