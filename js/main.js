@@ -25,6 +25,7 @@ map.on('load', () => {
   activeFormState(true);
 }).setView(MAP_VIEW, MAP_ZOOM);
 
+
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
