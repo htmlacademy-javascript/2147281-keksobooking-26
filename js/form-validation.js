@@ -18,6 +18,7 @@ const roomsOptionSelected = roomsSelectElement.querySelector('option:checked');
 const capacitySelectElement = form.querySelector('#capacity');
 
 const priceElement = form.querySelector('#price');
+const priceSliderElement = form.querySelector('.ad-form__slider');
 
 const timeinSelectElement = form.querySelector('#timein');
 const timeoutSelectElement = form.querySelector('#timeout');
@@ -27,13 +28,28 @@ let availableNumbersOfGuests = MAX_GUESTS[roomsOptionSelected.value];
 priceElement.placeholder = MIN_PRICES[typeOptionSelectedElement.value];
 priceElement.min = MIN_PRICES[typeOptionSelectedElement.value];
 
+
 // Валидация на минимальную цену относительно типа жилья:
+
+const getStartPriceForSlider = (minPrice) => {
+  if (minPrice > priceElement.value) {
+    return minPrice;
+  }
+  return Number(priceElement.value);
+};
 
 const onChangeTypeSetMinPrice = (evt) => {
   const minPrice = MIN_PRICES[evt.target.value];
   priceElement.placeholder = minPrice;
   priceElement.min = minPrice;
   validator.validate(priceElement);
+  priceSliderElement.noUiSlider.updateOptions({
+    range: {
+      min: minPrice,
+      max: Number(priceElement.max),
+    },
+    start: getStartPriceForSlider(minPrice),
+  });
 };
 
 typeSelectElement.addEventListener('change', onChangeTypeSetMinPrice);
@@ -49,6 +65,28 @@ validator.addValidator(
   validateMinPrice,
   getMinPriceError,
 );
+
+// Подключение noUISlider и синхронизируем его с ценой:
+
+noUiSlider.create(priceSliderElement, {
+  range: {
+    min: Number(priceElement.min),
+    max: Number(priceElement.max),
+  },
+  start: Number(priceElement.min),
+  step: 10,
+  connect: 'lower'
+});
+
+priceSliderElement.noUiSlider.on('update', () => {
+  const priceSliderValue = Number(priceSliderElement.noUiSlider.get());
+  priceElement.value = priceSliderValue.toFixed(0);
+  validator.validate(priceElement);
+});
+
+priceElement.addEventListener('change', (evt) => {
+  priceSliderElement.noUiSlider.set(Number(evt.target.value));
+});
 
 // Валидация на количество гостей относительно количества комнат:
 
