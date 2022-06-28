@@ -1,27 +1,17 @@
 import { createAdCard } from './ad-card.js';
+import { MAP_VIEW, MAIN_PIN_ICON, AD_PIN_ICON } from './ads-data.js';
 
-const mainPinIcon = L.icon({
-  iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
+const mainPinIcon = L.icon(MAIN_PIN_ICON);
 
 const mainPinMarker = L.marker(
-  {
-    lat: 35.67500,
-    lng: 139.75000,
-  },
+  MAP_VIEW,
   {
     draggable: true,
     icon: mainPinIcon,
   }
 );
 
-const adPinIcon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+const adPinIcon = L.icon(AD_PIN_ICON);
 
 const markerGroup = L.layerGroup();
 
