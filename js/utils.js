@@ -1,3 +1,5 @@
+import { SHOW_ERROR_TIME, DIGITS_LAT_LNG } from './data.js';
+
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -35,8 +37,32 @@ Array.max = function(array){
   return Math.max.apply(Math, array);
 };
 
-Array.min = function(array){
-  return Math.min.apply(Math, array);
+const getCoordinatesFromMarker = (marker) => {
+  const lat = String(marker.getLatLng().lat.toFixed(DIGITS_LAT_LNG));
+  const lng = String(marker.getLatLng().lng.toFixed(DIGITS_LAT_LNG));
+  const adressValue = `${lat}, ${lng}`;
+  return adressValue;
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString};
+const showErrorMessage = (message) => {
+  const errorContainer = document.createElement('div');
+  errorContainer.style.zIndex = '100';
+  errorContainer.style.position = 'absolute';
+  errorContainer.style.left = '0';
+  errorContainer.style.top = '0';
+  errorContainer.style.right = '0';
+  errorContainer.style.padding = '10px 3px';
+  errorContainer.style.fontSize = '30px';
+  errorContainer.style.textAlign = 'center';
+  errorContainer.style.backgroundColor = 'red';
+
+  errorContainer.textContent = message;
+
+  document.body.append(errorContainer);
+
+  setTimeout(() => {
+    errorContainer.remove();
+  }, SHOW_ERROR_TIME);
+};
+
+export { getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString, showErrorMessage, getCoordinatesFromMarker };

@@ -1,31 +1,23 @@
 import { overwriteGuestString } from './utils.js';
-
-const cardTemplate = document.querySelector('#card').content;
-
-const adTemplate = cardTemplate.querySelector('.popup');
-
-const typesDictionary = {
-  flat: 'Квартира',
-  palace: 'Дворец',
-  bungalow: 'Бунгало',
-  hotel: 'Отель',
-  house: 'Дом'
-};
+import { TYPES_DICTIONARY } from './data.js';
+import { adTemplate } from './dom-elements.js';
 
 const keepExistingFeatures = (templateFeatures, existFeatures, modifier = '') => {
-  if (existFeatures.length > 0) {
+  if (existFeatures !== undefined) {
     templateFeatures.forEach((el) => {
       if (!existFeatures.some((item) =>
         el.classList.contains(modifier + item))) {
         el.remove();
       }});
   } else {
-    templateFeatures[0].parentElement.style.display = 'none';
+    templateFeatures.forEach((el) => {
+      el.style.display = 'none';
+    });
   }
 };
 
 const showDownloadedPhotos = (photoLinks, receivingContainer, receivingTemplate) => {
-  if (photoLinks.length > 0) {
+  if (photoLinks  !== undefined) {
     for (let i = 0; i < photoLinks.length; i++) {
       const photo = receivingContainer.querySelector(receivingTemplate).cloneNode(true);
       photo.src = photoLinks[i];
@@ -46,7 +38,7 @@ const createAdCard = (ad) => {
   const price = adClone.querySelector('.popup__text--price');
   price.textContent = `${ad.offer.price} ₽/ночь`;
   const type = adClone.querySelector('.popup__type');
-  type.textContent = typesDictionary[ad.offer.type];
+  type.textContent = TYPES_DICTIONARY[ad.offer.type];
   const capacity = adClone.querySelector('.popup__text--capacity');
   capacity.textContent = `Количество комнат: ${ad.offer.rooms}. Рассчитано на ${ad.offer.guests} ${overwriteGuestString(ad.offer.guests)}.`;
   const checkingTime = adClone.querySelector('.popup__text--time');
