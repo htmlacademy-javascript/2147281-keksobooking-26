@@ -1,3 +1,8 @@
+const REQUEST_LINKS = {
+  formData: 'https://26.javascript.pages.academy/keksobooking',
+  adsData: 'https://26.javascript.pages.academy/keksobooking/data'
+};
+
 const MAX_GUESTS = {
   '1': [1],
   '2': [1, 2],
@@ -48,4 +53,4 @@ const SHOW_ERROR_TIME = 5000;
 
 const ERROR_MESSAGE_GET_ADS_DATA = 'К сожалению, сейчас мы не можем отобразить похожие объявления в данном регионе. Работаем над исправлением этого недоразумения.';
 
-export { MAX_GUESTS, MIN_PRICES, MAP_VIEW, MAP_ZOOM, DIGITS_LAT_LNG, AD_PIN_ICON, MAIN_PIN_ICON, SHOW_ERROR_TIME, ERROR_MESSAGE_GET_ADS_DATA, PRICE_SLIDER_STEP, TYPES_DICTIONARY };
+export { MAX_GUESTS, MIN_PRICES, MAP_VIEW, MAP_ZOOM, DIGITS_LAT_LNG, AD_PIN_ICON, MAIN_PIN_ICON, SHOW_ERROR_TIME, ERROR_MESSAGE_GET_ADS_DATA, PRICE_SLIDER_STEP, TYPES_DICTIONARY, REQUEST_LINKS };

@@ -32,4 +32,4 @@ const timeoutSelectElement = formElement.querySelector('#timeout');
 
 const adressElement = formElement.querySelector('#address');
 
-export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterElement, messageSuccesElement, messageErrorElement};
+export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterElement, messageSuccesElement, messageErrorElement };

@@ -19,4 +19,4 @@ const resetForms = (form) => {
   });
 };
 
-export {resetForms};
+export { resetForms };
