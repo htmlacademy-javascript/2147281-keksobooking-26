@@ -1,6 +1,6 @@
 import { overwriteGuestString } from './utils.js';
-import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP } from './data.js';
-import { postFormData } from './requests.js';
+import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP, REQUEST_LINKS } from './data.js';
+import { postFormData } from './web-api.js';
 import { resetForms } from './reset-forms.js';
 import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, resetButtonElement } from './dom-elements.js';
 
@@ -124,13 +124,14 @@ formElement.addEventListener('submit', (evt) => {
   const isValid = validator.validate();
   if (isValid) {
     const formData = new FormData (evt.target);
-    postFormData('https://26.jafsgsvascript.pages.academy/keksobooking', formData, evt.target);
+    postFormData(REQUEST_LINKS.formData, formData, evt.target);
   }
 });
 
-resetButtonElement.addEventListener('click', () => {
+resetButtonElement.addEventListener('click', (evt) => {
+  evt.preventDefault();
   validator.reset();
   resetForms(formElement);
 });
 
-export {validator, minPriceDefault};
+export { validator, minPriceDefault };

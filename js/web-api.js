@@ -44,4 +44,4 @@ const postFormData = (url, formData, form) => {
     });
 };
 
-export {getAdsDataAndPushToMap, postFormData};
+export { getAdsDataAndPushToMap, postFormData };
