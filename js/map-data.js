@@ -1,5 +1,7 @@
-import { createAdCard } from './ad-card.js';
-import { MAP_VIEW, MAIN_PIN_ICON, AD_PIN_ICON } from './ads-data.js';
+import { createAdCard } from './create-ad-card.js';
+import { MAP_VIEW, MAIN_PIN_ICON, AD_PIN_ICON } from './data.js';
+
+const map = L.map('map');
 
 const mainPinIcon = L.icon(MAIN_PIN_ICON);
 
@@ -29,4 +31,4 @@ const createAdMarker = (ad) => {
   adPinMarker.addTo(markerGroup).bindPopup(createAdCard(ad));
 };
 
-export { mainPinMarker, adPinIcon, markerGroup, createAdMarker };
+export { map, mainPinMarker, adPinIcon, markerGroup, createAdMarker };

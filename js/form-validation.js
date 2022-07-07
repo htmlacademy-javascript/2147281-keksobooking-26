@@ -1,33 +1,18 @@
 import { overwriteGuestString } from './utils.js';
-import { MAX_GUESTS, MIN_PRICES } from './ads-data.js';
+import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP, REQUEST_LINKS } from './data.js';
+import { postFormData } from './web-api.js';
+import { resetForms } from './reset-forms.js';
+import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, resetButtonElement } from './dom-elements.js';
 
-const form = document.querySelector('.ad-form');
-
-const validator = new Pristine(form, {
+const validator = new Pristine(formElement, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error-text',
 });
 
-const typeSelectElement = form.querySelector('#type');
-const typeOptionSelectedElement = typeSelectElement.querySelector('option:checked');
-
-const roomsSelectElement = form.querySelector('#room_number');
-const roomsOptionSelected = roomsSelectElement.querySelector('option:checked');
-
-const capacitySelectElement = form.querySelector('#capacity');
-
-const priceElement = form.querySelector('#price');
-const priceSliderElement = form.querySelector('.ad-form__slider');
-
-const timeinSelectElement = form.querySelector('#timein');
-const timeoutSelectElement = form.querySelector('#timeout');
-
-let availableNumbersOfGuests = MAX_GUESTS[roomsOptionSelected.value];
-
-priceElement.placeholder = MIN_PRICES[typeOptionSelectedElement.value];
-priceElement.min = MIN_PRICES[typeOptionSelectedElement.value];
-
+const minPriceDefault = MIN_PRICES[typeOptionSelectedElement.value];
+priceElement.placeholder = minPriceDefault;
+priceElement.min = minPriceDefault;
 
 // Валидация на минимальную цену относительно типа жилья:
 
@@ -74,7 +59,7 @@ noUiSlider.create(priceSliderElement, {
     max: Number(priceElement.max),
   },
   start: Number(priceElement.min),
-  step: 10,
+  step: PRICE_SLIDER_STEP,
   connect: 'lower'
 });
 
@@ -89,6 +74,8 @@ priceElement.addEventListener('change', (evt) => {
 });
 
 // Валидация на количество гостей относительно количества комнат:
+
+let availableNumbersOfGuests = MAX_GUESTS[roomsOptionSelected.value];
 
 const validateCapacity = (value) => {
   value = Number(value);
@@ -132,14 +119,19 @@ timeoutSelectElement.addEventListener('change', onChangeTimeoutSwitchTimein);
 
 // Рабочая валидация по кнопке и обнуление формы:
 
-form.addEventListener('submit', (evt) => {
+formElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   const isValid = validator.validate();
-  if (!isValid) {
-    evt.preventDefault();
+  if (isValid) {
+    const formData = new FormData (evt.target);
+    postFormData(REQUEST_LINKS.formData, formData, evt.target);
   }
 });
 
-form.addEventListener('reset', () => {
+resetButtonElement.addEventListener('click', (evt) => {
+  evt.preventDefault();
   validator.reset();
+  resetForms(formElement);
 });
 
+export { validator, minPriceDefault };
