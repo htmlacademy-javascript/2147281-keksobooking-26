@@ -53,6 +53,9 @@ const MAIN_PIN_ICON = {
 
 const FILTERS_DICTIONARY = {
   pluralWord: 'any',
+  priceElementId: 'housing-price',
+  featureElementsName: 'features',
+  isNumber: new RegExp('^[0-9]+$'),
   lowPrice: {
     text: 'low',
     value: 10000,
