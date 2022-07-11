@@ -3,10 +3,10 @@ import { map, mainPinMarker } from './map-data.js';
 import { validator } from './form-validation.js';
 import { getAdsDataAndPushToMap } from './web-api.js';
 import { MAP_VIEW, MAP_ZOOM, REQUEST_LINKS } from './data.js';
-import { adressElement } from './dom-elements.js';
+import { adressElement, filterElements } from './dom-elements.js';
 import { getCoordinatesFromMarker } from './utils.js';
+import { onFilterElementChangeDebounce } from './filters.js';
 import './form-validation.js';
-import './filters.js';
 
 activeFormState(false);
 
@@ -19,6 +19,9 @@ map.on('load', () => {
     validator.validate(adressElement);
   });
   getAdsDataAndPushToMap(REQUEST_LINKS.adsData);
+  for (const filter of filterElements) {
+    filter.addEventListener('change', onFilterElementChangeDebounce);
+  }
 }).setView(MAP_VIEW, MAP_ZOOM);
 
 
