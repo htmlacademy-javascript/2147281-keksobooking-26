@@ -5,7 +5,7 @@ import { getAdsDataAndPushToMap } from './web-api.js';
 import { MAP_VIEW, MAP_ZOOM, REQUEST_LINKS } from './data.js';
 import { adressElement, filterElements } from './dom-elements.js';
 import { getCoordinatesFromMarker } from './utils.js';
-import { onFilterElementChangeDebounce } from './filters.js';
+import { onChangeFilterElementWithDebounce } from './filter-data.js';
 import './form-validation.js';
 
 activeFormState(false);
@@ -20,7 +20,7 @@ map.on('load', () => {
   });
   getAdsDataAndPushToMap(REQUEST_LINKS.adsData);
   for (const filter of filterElements) {
-    filter.addEventListener('change', onFilterElementChangeDebounce);
+    filter.addEventListener('change', onChangeFilterElementWithDebounce);
   }
 }).setView(MAP_VIEW, MAP_ZOOM);
 

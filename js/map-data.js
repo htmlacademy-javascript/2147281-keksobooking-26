@@ -32,4 +32,10 @@ const createAdMarker = (ad) => {
   adPinMarker.addTo(markerGroup).bindPopup(createAdCard(ad));
 };
 
-export { map, mainPinMarker, adPinIcon, markerGroup, createAdMarker };
+const clearLayers = () => {
+  if (markerGroup.getLayers().length > 0) {
+    markerGroup.clearLayers();
+  }
+};
+
+export { map, mainPinMarker, adPinIcon, markerGroup, createAdMarker, clearLayers };

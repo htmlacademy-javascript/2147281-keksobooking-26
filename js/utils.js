@@ -63,20 +63,6 @@ const showErrorMessage = (message) => {
   }, SHOW_ERROR_TIME);
 };
 
-const getRandomElementsFromArray = (array, max) => {
-  if (array.length > max) {
-    const arrayCopy = array.slice();
-    const randomElements = [];
-    for (let i = 1; i <= max; i++) {
-      const randomIndex = getRandomPositiveInteger(0, arrayCopy.length - 1);
-      randomElements.push(arrayCopy[randomIndex]);
-      arrayCopy.splice(randomIndex, 1);
-    }
-    return randomElements;
-  }
-  return array;
-};
-
 function debounce (callback, timeoutDelay = 500) {
   let timeoutId;
   return (...rest) => {
@@ -85,4 +71,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export { getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString, showErrorMessage, getCoordinatesFromMarker, getRandomElementsFromArray, debounce };
+export { getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString, showErrorMessage, getCoordinatesFromMarker, debounce };
