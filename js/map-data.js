@@ -17,6 +17,7 @@ const adPinIcon = L.icon(AD_PIN_ICON);
 
 const markerGroup = L.layerGroup();
 
+
 const createAdMarker = (ad) => {
   const adPinMarker = L.marker(
     {

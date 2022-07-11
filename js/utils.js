@@ -14,12 +14,12 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
   return +result.toFixed(digits);
 };
 
-const getRandomElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+const getRandomElement = (array) => array[getRandomPositiveInteger(0, array.length - 1)];
 
-const getRandomArray = (elements) => {
-  const maxNumber = getRandomPositiveInteger(1, elements.length);
+const getRandomArray = (array) => {
+  const maxNumber = getRandomPositiveInteger(1, array.length);
   const minNumber = getRandomPositiveInteger(0, maxNumber);
-  const randomArray = elements.slice(minNumber, maxNumber);
+  const randomArray = array.slice(minNumber, maxNumber);
   return randomArray;
 };
 
@@ -63,4 +63,26 @@ const showErrorMessage = (message) => {
   }, SHOW_ERROR_TIME);
 };
 
-export { getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString, showErrorMessage, getCoordinatesFromMarker };
+const getRandomElementsFromArray = (array, max) => {
+  if (array.length > max) {
+    const arrayCopy = array.slice();
+    const randomElements = [];
+    for (let i = 1; i <= max; i++) {
+      const randomIndex = getRandomPositiveInteger(0, arrayCopy.length - 1);
+      randomElements.push(arrayCopy[randomIndex]);
+      arrayCopy.splice(randomIndex, 1);
+    }
+    return randomElements;
+  }
+  return array;
+};
+
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export { getRandomPositiveInteger, getRandomPositiveFloat, getRandomElement, getRandomArray, overwriteGuestString, showErrorMessage, getCoordinatesFromMarker, getRandomElementsFromArray, debounce };
