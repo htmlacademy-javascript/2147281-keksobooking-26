@@ -1,11 +1,11 @@
 import { activeFormState } from './active-form-state.js';
-import { map, mainPinMarker } from './map-data.js';
+import { map, mainPinMarker, markerGroup } from './map-data.js';
+import { tryOnSuccesGettingAdsData, tryOnFailGettingAdsData } from './api-callbacks.js';
 import { validator } from './form-validation.js';
-import { getAdsDataAndPushToMap } from './web-api.js';
-import { MAP_VIEW, MAP_ZOOM, REQUEST_LINKS } from './data.js';
-import { adressElement, filterElements } from './dom-elements.js';
+import { getAdsData } from './api.js';
+import { MAP_VIEW, MAP_ZOOM } from './data.js';
+import { adressElement } from './dom-elements.js';
 import { getCoordinatesFromMarker } from './utils.js';
-import { onFilterElementChangeDebounce } from './filters.js';
 import './form-validation.js';
 
 activeFormState(false);
@@ -13,15 +13,17 @@ activeFormState(false);
 map.on('load', () => {
   activeFormState(true);
   mainPinMarker.addTo(map);
+  markerGroup.addTo(map);
   adressElement.value = getCoordinatesFromMarker(mainPinMarker);
   mainPinMarker.on('move', (evt) => {
     adressElement.value = getCoordinatesFromMarker(evt.target);
     validator.validate(adressElement);
   });
-  getAdsDataAndPushToMap(REQUEST_LINKS.adsData);
-  for (const filter of filterElements) {
-    filter.addEventListener('change', onFilterElementChangeDebounce);
-  }
+  getAdsData((data) => {
+    tryOnSuccesGettingAdsData(data);
+  }, (err) => {
+    tryOnFailGettingAdsData(err);
+  });
 }).setView(MAP_VIEW, MAP_ZOOM);
 
 
