@@ -1,8 +1,6 @@
 import { overwriteGuestString } from './utils.js';
-import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP, REQUEST_LINKS } from './data.js';
-import { postFormData } from './web-api.js';
-import { resetForms } from './reset-forms.js';
-import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, resetButtonElement } from './dom-elements.js';
+import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP } from './data.js';
+import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement } from './dom-elements.js';
 
 const validator = new Pristine(formElement, {
   classTo: 'ad-form__element',
@@ -51,7 +49,7 @@ validator.addValidator(
   getMinPriceError,
 );
 
-// Подключение noUISlider и синхронизируем его с ценой:
+// Подключение noUISlider и его синхронизация с ценой:
 
 noUiSlider.create(priceSliderElement, {
   range: {
@@ -116,22 +114,5 @@ const onChangeTimeoutSwitchTimein = (evt) => {
 };
 
 timeoutSelectElement.addEventListener('change', onChangeTimeoutSwitchTimein);
-
-// Рабочая валидация по кнопке и обнуление формы:
-
-formElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = validator.validate();
-  if (isValid) {
-    const formData = new FormData (evt.target);
-    postFormData(REQUEST_LINKS.formData, formData, evt.target);
-  }
-});
-
-resetButtonElement.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  validator.reset();
-  resetForms(formElement);
-});
 
 export { validator, minPriceDefault };

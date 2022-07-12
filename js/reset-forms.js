@@ -4,9 +4,9 @@ import { filterElement, priceElement, priceSliderElement } from './dom-elements.
 import { minPriceDefault } from './form-validation.js';
 import { onChangeFilterElementWithDebounce } from './filter-data.js';
 
-const resetForms = (form) => {
+const resetForms = (form, adsData) => {
   filterElement.reset();
-  onChangeFilterElementWithDebounce();
+  onChangeFilterElementWithDebounce(adsData);
   form.reset();
   map.closePopup();
   mainPinMarker.setLatLng(MAP_VIEW);

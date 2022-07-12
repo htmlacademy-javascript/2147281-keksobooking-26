@@ -34,24 +34,4 @@ const adressElement = formElement.querySelector('#address');
 
 const filterElements = filterElement.querySelectorAll('.map__checkbox, .map__filter');
 
-const housingTypeFilterElement = filterElement.querySelector('#housing-type');
-
-const housingGuestsFilterElement = filterElement.querySelector('#housing-guests');
-
-const housingRoomsFilterElement = filterElement.querySelector('#housing-rooms');
-
-const housingPriceFilterElement = filterElement.querySelector('#housing-price');
-
-const wifiFilterElement = filterElement.querySelector('#filter-wifi');
-
-const dishwasherFilterElement = filterElement.querySelector('#filter-dishwasher');
-
-const parkingFilterElement = filterElement.querySelector('#filter-parking');
-
-const washerFilterElement = filterElement.querySelector('#filter-washer');
-
-const elevatorFilterElement = filterElement.querySelector('#filter-elevator');
-
-const conditionerFilterElement = filterElement.querySelector('#filter-conditioner');
-
-export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterElement, messageSuccesElement, messageErrorElement, filterElements, housingTypeFilterElement, housingGuestsFilterElement, housingRoomsFilterElement, housingPriceFilterElement, wifiFilterElement, dishwasherFilterElement, parkingFilterElement, washerFilterElement, elevatorFilterElement, conditionerFilterElement };
+export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterElement, messageSuccesElement, messageErrorElement, filterElements };
