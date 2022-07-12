@@ -3,7 +3,7 @@ import { ERROR_MESSAGE_GET_ADS_DATA } from './data.js';
 import { showAdsData } from './filter-data.js';
 import { postFormData } from './api.js';
 import { resetForms } from './reset-forms.js';
-import { messageSuccesElement, messageErrorElement, formElement, resetButtonElement, filterElement } from './dom-elements.js';
+import { messageSuccesElement, messageErrorElement, formElement, resetButtonElement, filterFormElement } from './dom-elements.js';
 import { getPopupMessage } from './get-popup-message.js';
 import { validator } from './form-validation.js';
 import { onChangeFilterElementWithDebounce } from './filter-data.js';
@@ -39,7 +39,7 @@ const addEventListenerOnResetElement = (adsData) => {
 };
 
 const addEventListenerOnChangeFilterFormElement = (adsData) => {
-  filterElement.addEventListener('change', () => {
+  filterFormElement.addEventListener('change', () => {
     onChangeFilterElementWithDebounce(adsData);
   });
 };
@@ -47,7 +47,7 @@ const addEventListenerOnChangeFilterFormElement = (adsData) => {
 const tryOnFailGettingAdsData = (err) => {
   err.message = ERROR_MESSAGE_GET_ADS_DATA;
   showErrorMessage(err.message);
-  filterElement.classList.add('map__filters--disabled');
+  filterFormElement.classList.add('map__filters--disabled');
 };
 
 const tryOnSuccesGettingAdsData = (adsData) => {

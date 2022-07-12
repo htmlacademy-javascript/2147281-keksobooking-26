@@ -53,18 +53,6 @@ const MAIN_PIN_ICON = {
 
 const FILTERS_DICTIONARY = {
   pluralWord: 'any',
-  filtersId: {
-    type: 'housing-type',
-    guests: 'housing-guests',
-    rooms: 'housing-rooms',
-    price: 'housing-price',
-    wifi: 'filter-wifi',
-    dishwasher: 'filter-dishwasher',
-    parking: 'filter-parking',
-    washer: 'filter-washer',
-    elevator: 'filter-elevator',
-    conditioner: 'filter-conditioner',
-  },
   featureElementsName: 'features',
   isNumber: new RegExp('^[0-9]+$'),
   lowPrice: {
