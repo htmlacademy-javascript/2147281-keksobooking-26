@@ -67,7 +67,7 @@ const getMatchedAds = (data) => {
   return matchedAds;
 };
 
-const filterAdsData = (adsData) => {
+const showAdsData = (adsData) => {
   clearLayers();
   const dataFiltered = getMatchedAds(adsData);
   dataFiltered.forEach((ad) => {
@@ -75,6 +75,6 @@ const filterAdsData = (adsData) => {
   });
 };
 
-const onChangeFilterElementWithDebounce = debounce((adsData) => filterAdsData(adsData), 500);
+const onChangeFilterElementWithDebounce = debounce((adsData) => showAdsData(adsData), 500);
 
-export { filterAdsData, onChangeFilterElementWithDebounce };
+export { showAdsData, onChangeFilterElementWithDebounce };

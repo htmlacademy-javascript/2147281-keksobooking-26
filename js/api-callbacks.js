@@ -1,6 +1,6 @@
 import { showErrorMessage } from './utils.js';
 import { ERROR_MESSAGE_GET_ADS_DATA } from './data.js';
-import { filterAdsData } from './filter-data.js';
+import { showAdsData } from './filter-data.js';
 import { postFormData } from './api.js';
 import { resetForms } from './reset-forms.js';
 import { messageSuccesElement, messageErrorElement, formElement, resetButtonElement, filterElement } from './dom-elements.js';
@@ -51,7 +51,7 @@ const tryOnFailGettingAdsData = (err) => {
 };
 
 const tryOnSuccesGettingAdsData = (adsData) => {
-  filterAdsData(adsData);
+  showAdsData(adsData);
   addEventListenerOnSubmitElement(adsData);
   addEventListenerOnResetElement(adsData);
   addEventListenerOnChangeFilterFormElement(adsData);
