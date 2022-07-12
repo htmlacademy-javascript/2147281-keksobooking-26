@@ -10,7 +10,7 @@ const messageErrorTemplate = document.querySelector('#error').content;
 
 const messageErrorElement = messageErrorTemplate.querySelector('.error');
 
-const filterElement = document.querySelector('.map__filters');
+const filterFormElement = document.querySelector('.map__filters');
 
 const formElement = document.querySelector('.ad-form');
 
@@ -32,6 +32,6 @@ const timeoutSelectElement = formElement.querySelector('#timeout');
 
 const adressElement = formElement.querySelector('#address');
 
-const filterElements = filterElement.querySelectorAll('.map__checkbox, .map__filter');
+const filterElements = filterFormElement.querySelectorAll('.map__checkbox, .map__filter');
 
-export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterElement, messageSuccesElement, messageErrorElement, filterElements };
+export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterFormElement, messageSuccesElement, messageErrorElement, filterElements };
