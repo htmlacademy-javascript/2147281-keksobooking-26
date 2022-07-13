@@ -1,8 +1,9 @@
-import { overwriteGuestString } from './utils.js';
-import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP, REQUEST_LINKS } from './data.js';
-import { postFormData } from './web-api.js';
+import { postFormData } from './api.js';
+import { getPopupMessage } from './get-popup-message.js';
 import { resetForms } from './reset-forms.js';
-import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, resetButtonElement } from './dom-elements.js';
+import { overwriteGuestString } from './utils.js';
+import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP } from './data.js';
+import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, messageSuccesElement, messageErrorElement, resetButtonElement } from './dom-elements.js';
 
 const validator = new Pristine(formElement, {
   classTo: 'ad-form__element',
@@ -51,7 +52,7 @@ validator.addValidator(
   getMinPriceError,
 );
 
-// Подключение noUISlider и синхронизируем его с ценой:
+// Подключение noUISlider и его синхронизация с ценой:
 
 noUiSlider.create(priceSliderElement, {
   range: {
@@ -117,21 +118,36 @@ const onChangeTimeoutSwitchTimein = (evt) => {
 
 timeoutSelectElement.addEventListener('change', onChangeTimeoutSwitchTimein);
 
-// Рабочая валидация по кнопке и обнуление формы:
+// Реализация событий на форме и коллбэки:
 
-formElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = validator.validate();
-  if (isValid) {
-    const formData = new FormData (evt.target);
-    postFormData(REQUEST_LINKS.formData, formData, evt.target);
-  }
-});
+const onSuccessSendingFormData = (adsData) => {
+  resetForms(formElement, adsData);
+  getPopupMessage(messageSuccesElement);
+};
 
-resetButtonElement.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  validator.reset();
-  resetForms(formElement);
-});
+const onFailSendingFormData = () => {
+  getPopupMessage(messageErrorElement);
+};
 
-export { validator, minPriceDefault };
+const onSuccessAddEventlistenerToSubmitForm = (adsData) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = validator.validate();
+    if (isValid) {
+      const formData = new FormData (evt.target);
+      postFormData(formData, () => {
+        onSuccessSendingFormData(adsData);
+      }, onFailSendingFormData);
+    }
+  });
+};
+
+const onSuccessAddEventlistenerToResetForm = (adsData) => {
+  resetButtonElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    validator.reset();
+    resetForms(formElement, adsData);
+  });
+};
+
+export { validator, minPriceDefault, onSuccessAddEventlistenerToSubmitForm, onSuccessAddEventlistenerToResetForm };
