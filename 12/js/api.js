@@ -1,6 +1,6 @@
 import { REQUEST_LINKS } from './data.js';
 
-const getAdsData = (onSucces, onFail) => {
+const getAdsData = (onSuccess, onFail) => {
   fetch(REQUEST_LINKS.adsData).then((response) => {
     if (response.ok) {
       return response.json();
@@ -8,20 +8,20 @@ const getAdsData = (onSucces, onFail) => {
     throw new Error();
   })
     .then((data) => {
-      onSucces(data);
+      onSuccess(data);
     }).catch((err) => {
       onFail(err);
     });
 };
 
-const postFormData = (formData, onSucces, onFail) => {
+const postFormData = (formData, onSuccess, onFail) => {
   fetch(REQUEST_LINKS.formData, {
     method: 'POST',
     body: formData,
   })
     .then((response) => {
       if (response.ok) {
-        onSucces();
+        onSuccess();
       } else {
         throw new Error();
       }

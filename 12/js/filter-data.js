@@ -1,7 +1,7 @@
-import { filterElements} from './dom-elements.js';
-import { ADS_QUANTITY_MAX, FILTERS_DICTIONARY } from './data.js';
+import { filterElements, filterFormElement } from './dom-elements.js';
+import { ADS_QUANTITY_MAX, FILTERS_DICTIONARY, ERROR_MESSAGE_GET_ADS_DATA } from './data.js';
 import { clearLayers, createAdMarker } from './map-data.js';
-import { debounce } from './utils.js';
+import { debounce, showErrorMessage } from './utils.js';
 
 const findFilter = (filterId) => {
   for (const filter of filterElements) {
@@ -36,7 +36,7 @@ const filterData = (data, element) => {
   const nodeValue = FILTERS_DICTIONARY.isNumber.test(element.value) ? Number(element.value) : element.value;
   if (nodeValue === FILTERS_DICTIONARY.pluralWord) {
     return true;
-  } else if (element.id === FILTERS_DICTIONARY.filtersId.price) {
+  } else if (element.id === 'housing-price') {
     return filterPrice(data, element);
   } else if (element.name === FILTERS_DICTIONARY.featureElementsName) {
     return filterFeature(data, element);
@@ -76,4 +76,21 @@ const showAdsData = (adsData) => {
 
 const onChangeFilterElementWithDebounce = debounce((adsData) => showAdsData(adsData), 500);
 
-export { showAdsData, onChangeFilterElementWithDebounce };
+const addEventListenerOnChangeFilterFormElement = (adsData) => {
+  filterFormElement.addEventListener('change', () => {
+    onChangeFilterElementWithDebounce(adsData);
+  });
+};
+
+const onFailGettingAdsData = (err) => {
+  err.message = ERROR_MESSAGE_GET_ADS_DATA;
+  showErrorMessage(err.message);
+  filterFormElement.classList.add('map__filters--disabled');
+};
+
+const onSuccessFilterAdsData = (adsData) => {
+  showAdsData(adsData);
+  addEventListenerOnChangeFilterFormElement(adsData);
+};
+
+export { onChangeFilterElementWithDebounce, onFailGettingAdsData, onSuccessFilterAdsData };

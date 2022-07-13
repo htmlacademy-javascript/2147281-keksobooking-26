@@ -1,6 +1,9 @@
+import { postFormData } from './api.js';
+import { getPopupMessage } from './get-popup-message.js';
+import { resetForms } from './reset-forms.js';
 import { overwriteGuestString } from './utils.js';
 import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP } from './data.js';
-import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement } from './dom-elements.js';
+import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, messageSuccesElement, messageErrorElement, resetButtonElement } from './dom-elements.js';
 
 const validator = new Pristine(formElement, {
   classTo: 'ad-form__element',
@@ -115,4 +118,36 @@ const onChangeTimeoutSwitchTimein = (evt) => {
 
 timeoutSelectElement.addEventListener('change', onChangeTimeoutSwitchTimein);
 
-export { validator, minPriceDefault };
+// Реализация событий на форме и коллбэки:
+
+const onSuccessSendingFormData = (adsData) => {
+  resetForms(formElement, adsData);
+  getPopupMessage(messageSuccesElement);
+};
+
+const onFailSendingFormData = () => {
+  getPopupMessage(messageErrorElement);
+};
+
+const onSuccessAddEventlistenerToSubmitForm = (adsData) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = validator.validate();
+    if (isValid) {
+      const formData = new FormData (evt.target);
+      postFormData(formData, () => {
+        onSuccessSendingFormData(adsData);
+      }, onFailSendingFormData);
+    }
+  });
+};
+
+const onSuccessAddEventlistenerToResetForm = (adsData) => {
+  resetButtonElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    validator.reset();
+    resetForms(formElement, adsData);
+  });
+};
+
+export { validator, minPriceDefault, onSuccessAddEventlistenerToSubmitForm, onSuccessAddEventlistenerToResetForm };
