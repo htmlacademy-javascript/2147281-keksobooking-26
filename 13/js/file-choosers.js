@@ -24,8 +24,11 @@ const createAdImgElement = (file) => {
   const adImgElement = document.createElement('img');
   adImgElement.src = URL.createObjectURL(file);
   adImgElement.alt = 'Фотография жилья';
-  adImgElement.width = '400';
-  adImgPreviewWrapperElement.append(adImgElement);
+  adImgElement.style.width = '60%';
+  adImgElement.style.height = '60%';
+  adImgPreviewWrapperElement.style.display = 'flex';
+  adImgPreviewWrapperElement.style.alignItems = 'center';
+  adImgPreviewWrapperElement.style.justifyContent = 'center';  adImgPreviewWrapperElement.append(adImgElement);
 };
 
 const addEventlistenertoAdImgChooserElement = () => {
