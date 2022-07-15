@@ -34,4 +34,10 @@ const adressElement = formElement.querySelector('#address');
 
 const filterElements = filterFormElement.querySelectorAll('.map__checkbox, .map__filter');
 
-export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterFormElement, messageSuccesElement, messageErrorElement, filterElements };
+const avatarFileChooserElement = formElement.querySelector('#avatar');
+const avatarPreviewElement = formElement.querySelector('#preview');
+
+const adImgFileChooserElement = formElement.querySelector('#images');
+const adImgPreviewWrapperElement = formElement.querySelector('.ad-form__photo');
+
+export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterFormElement, messageSuccesElement, messageErrorElement, filterElements, avatarFileChooserElement, avatarPreviewElement, adImgFileChooserElement, adImgPreviewWrapperElement };
