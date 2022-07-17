@@ -1,4 +1,4 @@
-import { activeFormState } from './active-form-state.js';
+import { deactivateForms, activateForm, activateFilterForm } from './activate-form.js';
 import { map, mainPinMarker, markerGroup } from './map-data.js';
 import { validator, onSuccessAddEventlistenerToSubmitForm, onSuccessAddEventlistenerToResetForm } from './form-validation.js';
 import { getAdsData } from './api.js';
@@ -9,10 +9,10 @@ import { getCoordinatesFromMarker } from './utils.js';
 import { addEventlistenerToAvatarChooserElement, addEventlistenertoAdImgChooserElement } from './file-choosers.js';
 import './form-validation.js';
 
-activeFormState(false);
+deactivateForms();
 
 map.on('load', () => {
-  activeFormState(true);
+  activateForm();
   addEventlistenerToAvatarChooserElement();
   addEventlistenertoAdImgChooserElement();
   markerGroup.addTo(map);
@@ -23,6 +23,7 @@ map.on('load', () => {
     validator.validate(adressElement);
   });
   getAdsData((data) => {
+    activateFilterForm();
     onSuccessFilterAdsData(data);
     onSuccessAddEventlistenerToSubmitForm(data);
     onSuccessAddEventlistenerToResetForm(data);

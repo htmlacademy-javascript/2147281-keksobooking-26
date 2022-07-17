@@ -13,6 +13,7 @@ const messageErrorElement = messageErrorTemplate.querySelector('.error');
 const filterFormElement = document.querySelector('.map__filters');
 
 const formElement = document.querySelector('.ad-form');
+const formElements = formElement.querySelectorAll('.ad-form__element');
 
 const resetButtonElement = formElement.querySelector('.ad-form__reset');
 
@@ -40,4 +41,8 @@ const avatarPreviewElement = formElement.querySelector('#preview');
 const adImgFileChooserElement = formElement.querySelector('#images');
 const adImgPreviewWrapperElement = formElement.querySelector('.ad-form__photo');
 
-export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterFormElement, messageSuccesElement, messageErrorElement, filterElements, avatarFileChooserElement, avatarPreviewElement, adImgFileChooserElement, adImgPreviewWrapperElement };
+const submitButtonElement = formElement.querySelector('.ad-form__submit');
+
+const titleInputElement = formElement.querySelector('#title');
+
+export { adTemplate, formElement, resetButtonElement, typeSelectElement, typeOptionSelectedElement, roomsOptionSelected, roomsSelectElement, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, adressElement, filterFormElement, messageSuccesElement, messageErrorElement, filterElements, avatarFileChooserElement, avatarPreviewElement, adImgFileChooserElement, adImgPreviewWrapperElement, submitButtonElement, titleInputElement, formElements };
