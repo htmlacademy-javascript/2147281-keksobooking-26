@@ -3,7 +3,7 @@ import { getPopupMessage } from './get-popup-message.js';
 import { resetForms } from './reset-forms.js';
 import { overwriteGuestString } from './utils.js';
 import { MAX_GUESTS, MIN_PRICES, PRICE_SLIDER_STEP } from './data.js';
-import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, messageSuccesElement, messageErrorElement, resetButtonElement } from './dom-elements.js';
+import { formElement, typeSelectElement, typeOptionSelectedElement, roomsSelectElement, roomsOptionSelected, capacitySelectElement, priceElement, priceSliderElement, timeinSelectElement, timeoutSelectElement, messageSuccesElement, messageErrorElement, resetButtonElement, submitButtonElement, titleInputElement } from './dom-elements.js';
 
 const validator = new Pristine(formElement, {
   classTo: 'ad-form__element',
@@ -118,14 +118,33 @@ const onChangeTimeoutSwitchTimein = (evt) => {
 
 timeoutSelectElement.addEventListener('change', onChangeTimeoutSwitchTimein);
 
+// Валидация заголовка:
+
+const validateTitle = () => {
+  const titleTrimmed = titleInputElement.value.trim();
+  return titleTrimmed.length >= 30 && titleTrimmed.length <= 100;
+};
+
+const getTitleSpacedErrorMessage = () => 'Введите от 30 до 100 символов, не включая пробелы в начале и в конце';
+
+validator.addValidator(
+  titleInputElement,
+  validateTitle,
+  getTitleSpacedErrorMessage,
+  2,
+  true
+);
+
 // Реализация событий на форме и коллбэки:
 
 const onSuccessSendingFormData = (adsData) => {
+  submitButtonElement.disabled = false;
   resetForms(formElement, adsData);
   getPopupMessage(messageSuccesElement);
 };
 
 const onFailSendingFormData = () => {
+  submitButtonElement.disabled = false;
   getPopupMessage(messageErrorElement);
 };
 
@@ -134,6 +153,7 @@ const onSuccessAddEventlistenerToSubmitForm = (adsData) => {
     evt.preventDefault();
     const isValid = validator.validate();
     if (isValid) {
+      submitButtonElement.disabled = true;
       const formData = new FormData (evt.target);
       postFormData(formData, () => {
         onSuccessSendingFormData(adsData);
